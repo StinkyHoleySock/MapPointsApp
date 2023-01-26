@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MapPointsApp</string>
+
+    <string name="no_information">Точка не задана</string>
+    <string name="button_text">Показать на карте</string>
+    <string name="button_submit">Подтвердить выбранную точку</string>
+
+</resources>
