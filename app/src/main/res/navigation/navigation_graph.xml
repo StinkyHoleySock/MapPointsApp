@@ -13,7 +13,9 @@
             app:destination="@id/mapFragment" />
         <argument
             android:name="address"
-            app:argType="com.example.mappointsapp.Address" />
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="Точка не задана" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
