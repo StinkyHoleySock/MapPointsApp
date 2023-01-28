@@ -7,14 +7,15 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.mappointsapp.databinding.FragmentPointInformationBinding
+import com.yandex.mapkit.user_location.UserLocationLayer
 
 class PointInformationFragment : Fragment(R.layout.fragment_point_information) {
 
     private var _binding: FragmentPointInformationBinding? = null
     private val binding: FragmentPointInformationBinding get() = _binding!!
 
-    private val args: PointInformationFragmentArgs by navArgs()
 
+    private val args: PointInformationFragmentArgs by navArgs()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentPointInformationBinding.bind(view)
