@@ -46,9 +46,26 @@ class MapFragment : Fragment(R.layout.fragment_map), UserLocationObjectListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentMapBinding.bind(view)
+        binding.map.map.isRotateGesturesEnabled = false
 
         setPoint()
+        subscribeUI()
+        checkPermission()
+        setUserLocation()
+    }
 
+    private fun setPoint() {
+        val listener = object : InputListener {
+            override fun onMapTap(map: Map, point: Point) {
+                viewModel.setPoint(point)
+            }
+
+            override fun onMapLongTap(p0: Map, p1: Point) {}
+        }
+        binding.map.map.addInputListener(listener)
+    }
+
+    private fun subscribeUI() {
         viewModel.point.observe(viewLifecycleOwner) { point ->
             binding.map.map.mapObjects.clear()
             binding.map.map.mapObjects.addPlacemark(point)
@@ -58,11 +75,6 @@ class MapFragment : Fragment(R.layout.fragment_map), UserLocationObjectListener,
         binding.btnSubmit.setOnClickListener {
             navigateToDetails(address)
         }
-
-        checkPermission()
-
-        userInterface()
-
     }
 
     private fun checkPermission() {
@@ -85,12 +97,10 @@ class MapFragment : Fragment(R.layout.fragment_map), UserLocationObjectListener,
         userLocationLayer.isVisible = true
         userLocationLayer.isHeadingEnabled = true
         userLocationLayer.setObjectListener(this)
-
         binding.map.map.addCameraListener(this)
-
         cameraUserPosition()
-
         permissionLocation = true
+
     }
 
     private fun cameraUserPosition() {
@@ -106,22 +116,13 @@ class MapFragment : Fragment(R.layout.fragment_map), UserLocationObjectListener,
         }
     }
 
-    private fun setPoint() {
-        val listener = object : InputListener {
-            override fun onMapTap(map: Map, point: Point) {
-                viewModel.setPoint(point)
-            }
-            override fun onMapLongTap(p0: Map, p1: Point) {}
-        }
-        binding.map.map.addInputListener(listener)
-    }
 
-    private fun userInterface() {
+
+    private fun setUserLocation() {
         val mapLogoAlignment = Alignment(HorizontalAlignment.LEFT, VerticalAlignment.BOTTOM)
         binding.map.map.logo.setAlignment(mapLogoAlignment)
         if (permissionLocation) {
             cameraUserPosition()
-
         } else {
             checkPermission()
         }
