@@ -111,7 +111,6 @@ class MapFragment : Fragment(R.layout.fragment_map), UserLocationObjectListener,
             override fun onMapTap(map: Map, point: Point) {
                 viewModel.setPoint(point)
             }
-
             override fun onMapLongTap(p0: Map, p1: Point) {}
         }
         binding.map.map.addInputListener(listener)
@@ -164,12 +163,39 @@ class MapFragment : Fragment(R.layout.fragment_map), UserLocationObjectListener,
 
     override fun onObjectAdded(userLocationView: UserLocationView) {
         setAnchor()
+
         userLocationView.arrow.setIcon(
             ImageProvider.fromResource(
-                requireContext(), Color.TRANSPARENT
+                requireContext(), R.drawable.ic_empty
             )
         )
+
+        val pinIcon = userLocationView.pin.useCompositeIcon()
+
+        pinIcon.setIcon(
+            "icon",
+            ImageProvider.fromResource(requireContext(), R.drawable.ic_empty),
+            IconStyle().setAnchor(PointF(0f, 0f))
+                .setRotationType(RotationType.ROTATE)
+                .setZIndex(0f)
+                .setScale(1f)
+        )
+
+        pinIcon.setIcon(
+            "pin",
+            ImageProvider.fromResource(requireContext(), R.drawable.ic_empty),
+            IconStyle().setAnchor(PointF(0.5f, 0.5f))
+                .setRotationType(RotationType.ROTATE)
+                .setZIndex(1f)
+                .setScale(0.5f)
+        )
+
         userLocationView.accuracyCircle.fillColor = Color.TRANSPARENT
+
+
+        userLocationView.arrow.isVisible = false
+        userLocationView.pin.isVisible = false
+        userLocationView.accuracyCircle.isVisible = false
     }
 
     override fun onObjectRemoved(p0: UserLocationView) {}
