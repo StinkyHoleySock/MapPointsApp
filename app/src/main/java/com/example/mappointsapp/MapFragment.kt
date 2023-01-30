@@ -38,6 +38,14 @@ class MapFragment : Fragment(R.layout.fragment_map), UserLocationObjectListener,
     private var permissionLocation = false
     private var followUserLocation = false
 
+    private val listener = object : InputListener {
+        override fun onMapTap(map: Map, point: Point) {
+            viewModel.setPoint(point)
+        }
+
+        override fun onMapLongTap(p0: Map, p1: Point) {}
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MapKitInitializer.initialize(requireContext())
@@ -55,13 +63,6 @@ class MapFragment : Fragment(R.layout.fragment_map), UserLocationObjectListener,
     }
 
     private fun setPoint() {
-        val listener = object : InputListener {
-            override fun onMapTap(map: Map, point: Point) {
-                viewModel.setPoint(point)
-            }
-
-            override fun onMapLongTap(p0: Map, p1: Point) {}
-        }
         binding.map.map.addInputListener(listener)
     }
 
