@@ -3,11 +3,12 @@ package com.example.mappointsapp
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.mappointsapp.databinding.FragmentPointInformationBinding
-import com.yandex.mapkit.user_location.UserLocationLayer
+
 
 class PointInformationFragment : Fragment(R.layout.fragment_point_information) {
 
@@ -16,6 +17,17 @@ class PointInformationFragment : Fragment(R.layout.fragment_point_information) {
 
 
     private val args: PointInformationFragmentArgs by navArgs()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true ) {
+                override fun handleOnBackPressed() {
+                    requireActivity().finish()
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentPointInformationBinding.bind(view)
@@ -29,6 +41,7 @@ class PointInformationFragment : Fragment(R.layout.fragment_point_information) {
             binding.tvInformation.text = args.address
         }
     }
+
 
     private fun navigateToMap() {
         val direction =
